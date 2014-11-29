@@ -1,0 +1,29 @@
+
+
+Trying to connect to NXT
+******** nxt_find_nth
+********** nxt_find_nth: will create address ... 
+******** create_address: create usb address: USB0::0x0694::0x0002::001653105DC5::RAW
+******** nxt_find_nth
+******** nxt_find_nth
+********** nxt_find_nth: will create address ... 
+******** create_address: create usb address: USB0::0x0694::0x0002::001653105DC5::RAW
+********* nxt_open: starting ... 
+********* nxt_open: ending ... 
+********* nxt_close sarting ...
+******** nxt_close: ending ...
+Found NXT: NXT 001653105DC5
+******** nxt_find_nth
+********** nxt_find_nth: will create address ... 
+******** create_address: create usb address: USB0::0x0694::0x0002::001653105DC5::RAW
+********* nxt_open: starting ... 
+********* nxt_open: ending ... 
+Connected to NXT
+NXT Messenger is listening for messages.
+lostConnection(false): Started receivingMessages()
+NXT Messenger asks for dispatch of: narrowcast "Connection status: true true"
+NXT started receiving messages
+Firmware version: 1.3
+Firmware protocol: 1.2
+Firmware status: 0
+leJOS Firmware version: 0.9.1(6595)
