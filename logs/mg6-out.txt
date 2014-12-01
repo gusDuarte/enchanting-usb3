@@ -1,0 +1,61 @@
+Enchanting Messenger is attempting to (re-)connect.
+Scratch Messenger is attempting to (re-)connect.
+NXT Messenger is attempting to (re-)connect.
+Running Command = { "/usr/bin/enchanting-frontend" }
+Enchanting Messenger is listening for messages.
+Trying to connect to NXT
+Trying to connect to NXT
+Found NXT: NXT 001653105DC5
+Connected to NXT
+NXT Messenger is listening for messages.
+lostConnection(false): Started receivingMessages()
+NXT Messenger asks for dispatch of: narrowcast "Connection status: true true"
+NXT started receiving messages
+Firmware version: 1.3
+Firmware protocol: 1.2
+Firmware status: 0
+leJOS Firmware version: 0.9.1(6595)
+********* starting FIND ...
+********* starting FIND ...
+** Created dev(2331012120), addr: USB0::0x0694::0x0002::001653105DC5::RAW
+********* ending FIND ...
+
+start OPEN ================
+** Created dev(2331012120), addr: USB0::0x0694::0x0002::001653105DC5::RAW
+end OPEN ===================
+
+SEND>  01:9B:F0:8A
+
+
+READ< 02:9B:00:4E
+
+
+start OPEN ================
+** Created dev(2331012120), addr: USB0::0x0694::0x0002::001653105DC5::RAW
+end OPEN ===================
+
+SEND>  01:FF:00:00
+
+
+READ< 02:FF:FD:00
+
+
+SEND>  01:88:00:00
+
+
+READ< 02:88:00:02
+
+
+SEND>  01:27:00:00
+
+
+READ< 02:27:00:00
+
+
+SEND>  00:13:00:00
+
+
+READ< invalid data len: -110
+
+
+READ< 

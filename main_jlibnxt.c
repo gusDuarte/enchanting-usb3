@@ -49,23 +49,32 @@ enum nxt_usb_ids {
 };
 
 static int initialised = 0;
+#define BUFF_LEN 1024
+static char _buff[BUFF_LEN];
 
 
+static
+void myprint(unsigned char * buf, int len){
 
-static 
-void myprint(char* buf, int len)
-{
-	char _buff[2048];
-	int i;
+    unsigned char * pin = buf;
+    const char * hex = "0123456789ABCDEF";
+    char * pout = _buff;
 
-	memcpy(_buff, buf, len);
-	_buff[len]=0;
+    if ((len > BUFF_LEN) || (len < 0)) {
+      printf("invalid data len: %d\n", len);
+      return;
+   }
+    
+    for(; pin < buf+sizeof(buf); pout+=3, pin++){
+        pout[0] = hex[(*pin>>4) & 0xF];
+        pout[1] = hex[ *pin     & 0xF];
+        pout[2] = ':';
+    }
+    pout[-1] = 0;
 
-	printf ("[[ ");
-	for (i=0; i<len; i++)
-		printf("%0X", _buff[i]);
-	printf (" ]]\n ");
+    printf("%s\n", _buff);
 }
+
 
 
 /* Create the device address string. We use the same format as the
@@ -146,8 +155,8 @@ static long nxt_find_nth(int idx, char *address)
               if (cnt++ < idx) continue;
               // Now create the address string we use the same format as the
               // Lego Fantom driver
-    	      //printf("********** %s: will create address ... \n", __func__); 
               create_address(dev, address);
+              printf("** Created dev(%lu), addr: %s\n", (unsigned long) dev, address); 
               return (long) dev;
             }
         }
@@ -234,7 +243,7 @@ int
 nxt_write_buf(long hdl, char *buf, int len)
 {
   //printf("******** %s:\n",__func__); 
-  myprint(buf,len); 
+  myprint((unsigned char*)buf,len); 
   int ret = usb_bulk_write((struct usb_dev_handle *)hdl, 0x1, buf, len, 20000);
   return ret;
 }
@@ -247,7 +256,7 @@ nxt_read_buf(long hdl, char *buf, int len)
 {
   //printf("******** %s:\n",__func__);
   int ret = usb_bulk_read((struct usb_dev_handle *)hdl, 0x82, buf, len, 20000);
-  myprint(buf,ret); 
+  myprint((unsigned char *)buf,ret); 
   return ret;
 }
 
@@ -282,7 +291,7 @@ JNIEXPORT jobjectArray JNICALL Java_lejos_pc_comm_NXTCommLibnxt_jlibnxt_1find
   int cnt = 0;
   char name[MAX_SERNO];
   int i = 0;
-  printf ("********* %s: starting ...\n", __func__);
+  printf ("********* starting FIND ...\n");
   while(nxt_find_nth(cnt, name) != 0)
   {
     names[cnt++] = (*env)->NewStringUTF(env, name) ;
@@ -295,7 +304,7 @@ JNIEXPORT jobjectArray JNICALL Java_lejos_pc_comm_NXTCommLibnxt_jlibnxt_1find
   for(i = 0; i < cnt; i++)
     (*env)->SetObjectArrayElement(env, arr, i, names[i]);
    
-  printf ("********* %s: ending ...\n\n", __func__);
+  printf ("********* ending FIND ...\n\n");
   return arr;
 }
 
@@ -306,17 +315,17 @@ JNIEXPORT jlong JNICALL Java_lejos_pc_comm_NXTCommLibnxt_jlibnxt_1open
   long dev;
   char name[MAX_SERNO];
   int cnt = 0;
-  printf ("********* %s: starting ...\n", __func__);
+  printf ("start OPEN ================\n");
   while((dev = nxt_find_nth(cnt, name)) != 0)
   {
     if (strcmp(name, nxt) == 0)
     {
-     printf ("********* %s: ending OK ...\n\n", __func__);
+     printf ("end OPEN ===================\n\n");
       return (jlong) nxt_open( dev ); 
     }
     cnt++;
   }
-  printf ("********* %s: ending ...FAIL\n\n", __func__);
+  printf ("********* fail OPEN ...\n\n");
   return (jlong) 0;
 }
 
@@ -327,11 +336,11 @@ JNIEXPORT void JNICALL Java_lejos_pc_comm_NXTCommLibnxt_jlibnxt_1close(JNIEnv *e
 JNIEXPORT jint JNICALL Java_lejos_pc_comm_NXTCommLibnxt_jlibnxt_1send_1data(JNIEnv *env, jobject obj, jlong nxt, jbyteArray data, jint offset, jint len)  {
   int ret;
   char *jb = (char *) (*env)->GetByteArrayElements(env, data, 0);  
-  printf ("********* %s: starting ...\n", __func__);
+  printf ("SEND>  ");
   ret = nxt_write_buf((long) nxt, jb+offset, len);
   (*env)->ReleaseByteArrayElements(env, data, (jbyte *) jb, 0);
   if (ret == -ETIMEDOUT) ret = 0;
-  printf ("********* %s: ending ...\n\n", __func__);
+  printf ("\n\n");
   return ret;
 }
 
@@ -339,11 +348,11 @@ JNIEXPORT jint JNICALL Java_lejos_pc_comm_NXTCommLibnxt_jlibnxt_1read_1data(JNIE
    int read_len;
    char *jb = (char *)(*env)->GetByteArrayElements(env, jdata, 0);
 
-   printf ("********* %s: starting ...\n", __func__);
+   printf ("READ< ");
    read_len = nxt_read_buf((long)nxt, jb + offset, len);
    (*env)->ReleaseByteArrayElements(env, jdata, (jbyte *)jb, 0);
    if (read_len == -ETIMEDOUT) read_len = 0;
-   printf ("********* %s: ending ...\n\n", __func__);
+   printf ("\n\n");
    return read_len;
 }
 
