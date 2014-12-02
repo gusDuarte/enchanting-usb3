@@ -1,0 +1,29 @@
+Found NXT: NXT 001653105DC5
+********* starting FIND ...
+** Created dev(139675089352512), addr: USB0::0x0694::0x0002::001653105DC5::RAW
+********* ending FIND ...
+
+start OPEN ================
+** Created dev(139675089352512), addr: USB0::0x0694::0x0002::001653105DC5::RAW
+end OPEN ===================
+
+SEND>  01:9B:15:A4:08:7F:00:00
+
+
+READ< 02:9B:00:4E:58:54:00:00
+
+
+start OPEN ================
+** Created dev(139675089352512), addr: USB0::0x0694::0x0002::001653105DC5::RAW
+end OPEN ===================
+
+SEND>  01:FF:00:00:00:00:00:00
+
+
+READ< invalid data len: -110
+
+
+READ< invalid data len: -110
+
+
+READ< 
