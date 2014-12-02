@@ -1,0 +1,22 @@
+1) Para listar los dispostivos usb, y ver que version es.
+
+	lsusb
+
+
+2) Bash script que imprime info acerca de los puerto USB
+	usb-devices
+
+
+	
+
+3)
+cat /proc/bus/input/devices
+
+
+4) Como saber que driver esta asociado a cada usb port.
+
+lspci | grep USB
+	00:1a.0 USB controller: Intel Corporation 6 Series/C200  Series Chipset Family USB Enhanced Host Controller #2 (rev 05)
+
+find /sys | grep drivers.*00:1a
+	/sys/bus/pci/drivers/ehci-pci/0000:00:1a.0
